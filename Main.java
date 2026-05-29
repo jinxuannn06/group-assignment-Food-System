@@ -1,6 +1,8 @@
 import java.util.Scanner;
 
 
+import foodsearch.FoodAVLTree;
+import foodsearch.FoodItem;
 import logic.ManagementSystem;
 import logic.OrderProcessingSystem;
 import logic.RouteOptimizationSystem;
@@ -17,6 +19,7 @@ public class Main {
         OrderProcessingSystem member2 = new OrderProcessingSystem();
         RouteOptimizationSystem member4 = new RouteOptimizationSystem();
         member4.loadSampleMap();
+        FoodAVLTree foodSearchTree = createSampleFoodTree();
 
 
         while (true) {
@@ -159,8 +162,7 @@ public class Main {
                     break;
 
                 case 5:
-                    System.out.println("\n[5] Fast Food Search System active.");
-                    //Member 5
+                    runFoodSearchMenu(scanner, foodSearchTree);
                     break;
 
                 case 6:
@@ -170,6 +172,85 @@ public class Main {
 
                 default:
                     System.out.println("Invalid input. Please choose options 1 through 6.");
+            }
+        }
+    }
+
+    private static FoodAVLTree createSampleFoodTree() {
+        FoodAVLTree foodTree = new FoodAVLTree();
+
+        foodTree.insert(new FoodItem("F001", "Nasi Lemak", "Rice", 8.50, "R001"));
+        foodTree.insert(new FoodItem("F002", "Chicken Rice", "Rice", 9.00, "R002"));
+        foodTree.insert(new FoodItem("F003", "Beef Burger", "Western", 12.90, "R003"));
+        foodTree.insert(new FoodItem("F004", "Laksa", "Noodles", 10.50, "R001"));
+        foodTree.insert(new FoodItem("F005", "Caesar Salad", "Healthy", 11.00, "R004"));
+
+        return foodTree;
+    }
+
+    private static void runFoodSearchMenu(Scanner scanner, FoodAVLTree foodTree) {
+        while (true) {
+            System.out.println("\n[5] Food Search & Recommendation");
+            System.out.println("1. Display all foods");
+            System.out.println("2. Search food by name");
+            System.out.println("3. Recommend by category");
+            System.out.println("4. Recommend by price range");
+            System.out.println("5. Back to main menu");
+            System.out.print("Enter your choice (1-5): ");
+
+            String foodChoice = scanner.nextLine();
+
+            if (foodChoice.equals("1")) {
+                System.out.println("\nAll foods in sorted order:");
+                foodTree.displaySortedFoods();
+
+            } else if (foodChoice.equals("2")) {
+                System.out.print("Enter food name: ");
+                String foodName = scanner.nextLine();
+                FoodItem foundFood = foodTree.searchByName(foodName);
+
+                if (foundFood == null) {
+                    System.out.println("Food item not found.");
+                } else {
+                    System.out.println("Search result:");
+                    System.out.println(foundFood);
+                }
+
+            } else if (foodChoice.equals("3")) {
+                System.out.print("Enter category: ");
+                String category = scanner.nextLine();
+                System.out.println("Recommended foods in " + category + " category:");
+                foodTree.recommendByCategory(category);
+
+            } else if (foodChoice.equals("4")) {
+                double minPrice = readDouble(scanner, "Enter minimum price: RM");
+                double maxPrice = readDouble(scanner, "Enter maximum price: RM");
+
+                if (minPrice > maxPrice) {
+                    System.out.println("Minimum price cannot be greater than maximum price.");
+                } else {
+                    System.out.println("Recommended foods from RM" + minPrice + " to RM" + maxPrice + ":");
+                    foodTree.recommendByPriceRange(minPrice, maxPrice);
+                }
+
+            } else if (foodChoice.equals("5")) {
+                return;
+
+            } else {
+                System.out.println("Invalid food search option.");
+            }
+        }
+    }
+
+    private static double readDouble(Scanner scanner, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine();
+
+            try {
+                return Double.parseDouble(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid price. Please enter a number.");
             }
         }
     }
