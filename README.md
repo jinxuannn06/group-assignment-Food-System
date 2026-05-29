@@ -69,10 +69,20 @@ In-order traversal visits the left subtree, then the current node, then the righ
 Category and price recommendations are `O(n)` because the AVL Tree is ordered by food name, not by category or price.
 
 ### Compile and Run
+Full project:
+```bash
+javac Main.java logic/*.java models/*.java foodsearch/*.java
+java Main
+```
+
+Food Search module demo:
 ```bash
 javac foodsearch/*.java
 java foodsearch.FoodSearchDemo
 ```
+
+### Integration Note
+The latest `main` branch does not contain a shared `models.FoodItem` class, so this module keeps `foodsearch.FoodItem`. If the team later adds `models.FoodItem`, the module can be updated to import and use the shared model.
 
 ### Author
 Food Search & System Lead: Manxi
