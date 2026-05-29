@@ -2,7 +2,9 @@ import java.util.Scanner;
 
 
 import logic.ManagementSystem;
+import logic.OrderProcessingSystem;
 import models.User;
+import models.Order;
 import models.Restaurant;
 
 public class Main {
@@ -11,6 +13,7 @@ public class Main {
         
         // Initialize all members' logic classes
         ManagementSystem member1 = new ManagementSystem();
+        OrderProcessingSystem member2 = new OrderProcessingSystem();
 
 
         while (true) {
@@ -69,8 +72,45 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("\n[2] Order Processing System active.");
-                    //Member 2
+                    System.out.println("\n[2] Order Processing & Undo System Active:");
+                    System.out.println("a. Place New Order");
+                    System.out.println("b. Process Next Order");
+                    System.out.println("c. Undo Last Placed Order");
+                    System.out.println("d. View Pending Order Queue");
+                    System.out.print("Select an option (a-d): ");
+                    String subChoice2 = scanner.nextLine();
+
+                    if (subChoice2.equalsIgnoreCase("a")) {
+                        System.out.print("Enter Order ID: ");
+                        String oId = scanner.nextLine();
+                        System.out.print("Enter User ID: ");
+                        String uId = scanner.nextLine();
+                        System.out.print("Enter Restaurant ID: ");
+                        String rId = scanner.nextLine();
+                        System.out.print("Enter Food Details: ");
+                        String details = scanner.nextLine();
+                        System.out.print("Enter Price: ");
+                        double price = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        // Validation checkpoint using Member 1's validation maps
+                        if (member1.getUserProfile(uId) == null) {
+                            System.out.println("Error: User ID does not exist in registrations.");
+                        } else if (member1.getRestaurant(rId) == null) {
+                            System.out.println("Error: Restaurant ID does not exist in registrations.");
+                        } else {
+                            member2.placeOrder(new Order(oId, uId, rId, details, price));
+                        }
+
+                    } else if (subChoice2.equalsIgnoreCase("b")) {
+                        member2.processNextOrder();
+
+                    } else if (subChoice2.equalsIgnoreCase("c")) {
+                        member2.undoLastOrder();
+
+                    } else if (subChoice2.equalsIgnoreCase("d")) {
+                        member2.displayOrderFlow();
+                    }
                     break;
 
                 case 3:
