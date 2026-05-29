@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import logic.ManagementSystem;
 import logic.OrderProcessingSystem;
+import logic.RouteOptimizationSystem;
 import models.User;
 import models.Order;
 import models.Restaurant;
@@ -14,6 +15,8 @@ public class Main {
         // Initialize all members' logic classes
         ManagementSystem member1 = new ManagementSystem();
         OrderProcessingSystem member2 = new OrderProcessingSystem();
+        RouteOptimizationSystem member4 = new RouteOptimizationSystem();
+        member4.loadSampleMap();
 
 
         while (true) {
@@ -120,7 +123,39 @@ public class Main {
 
                 case 4:
                     System.out.println("\n[4] Calculating shortest delivery pathway...");
-                    //Member 4
+                    System.out.println("a. View Available Location Nodes");
+                    System.out.println("b. Find Shortest Route");
+                    System.out.print("Select an option (a-b): ");
+                    String subChoice4 = scanner.nextLine();
+
+                    if (subChoice4.equalsIgnoreCase("a")) {
+                        member4.displayLocations();
+
+                    } else if (subChoice4.equalsIgnoreCase("b")) {
+                        System.out.print("Enter Restaurant ID: ");
+                        String restaurantId = scanner.nextLine();
+                        Restaurant restaurant = member1.getRestaurant(restaurantId);
+
+                        if (restaurant == null) {
+                            System.out.println("Error: Restaurant ID does not exist in registrations.");
+                            break;
+                        }
+
+                        String startLocation = restaurant.getLocation();
+                        if (!member4.hasLocation(startLocation)) {
+                            System.out.println("Error: Restaurant location '" + startLocation + "' is not available in the route map.");
+                            System.out.println("Tip: Register restaurants using one of the available location nodes.");
+                            member4.displayLocations();
+                            break;
+                        }
+
+                        System.out.print("Enter Customer Location Node: ");
+                        String destination = scanner.nextLine();
+                        member4.displayShortestRoute(startLocation, destination);
+
+                    } else {
+                        System.out.println("Invalid route optimization option.");
+                    }
                     break;
 
                 case 5:
