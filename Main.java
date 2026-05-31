@@ -6,6 +6,8 @@ import foodsearch.FoodItem;
 import logic.ManagementSystem;
 import logic.OrderProcessingSystem;
 import logic.RouteOptimizationSystem;
+import logic.RiderDispatchSystem;
+import models.Rider;
 import models.User;
 import models.Order;
 import models.Restaurant;
@@ -17,6 +19,7 @@ public class Main {
         // Initialize all members' logic classes
         ManagementSystem member1 = new ManagementSystem();
         OrderProcessingSystem member2 = new OrderProcessingSystem();
+        RiderDispatchSystem riderDispatchSystem = new RiderDispatchSystem();
         RouteOptimizationSystem member4 = new RouteOptimizationSystem();
         member4.loadSampleMap();
         FoodAVLTree foodSearchTree = createSampleFoodTree();
@@ -121,7 +124,28 @@ public class Main {
 
                 case 3:
                     System.out.println("\n[3] Assigning nearest delivery rider...");
-                    //Member 3
+                    System.out.println("a. Add Rider");
+                    System.out.println("b. Assign Nearest Rider");
+                    System.out.println("c. View Available Riders");
+                    System.out.println("d. Linear Search Demo (for comparison)");
+                    System.out.print("Select an option (a-d): ");
+                    String subChoice3 = scanner.nextLine();
+
+                    if (subChoice3.equalsIgnoreCase("a")) {
+                        System.out.println("Enter Rider ID: ");
+                        String riderId = scanner.nextLine().trim();
+                        System.out.println("Enter Rider Name: ");
+                        String riderName = scanner.nextLine().trim();
+                        System.out.println("Enter Distance to restaurant (km): ");
+                        double distance = Double.parseDouble(scanner.nextLine());
+                        riderDispatchSystem.addRider(new Rider(riderId, riderName, distance, true));
+                    } else if (subChoice3.equalsIgnoreCase("b")) {
+                        riderDispatchSystem.assignNearestRider();
+                    } else if (subChoice3.equalsIgnoreCase("c")) {
+                        riderDispatchSystem.displayAvailableRiders();
+                    } else if (subChoice3.equalsIgnoreCase("d")) {
+                        riderDispatchSystem.linearSearchNearest();
+                    }
                     break;
 
                 case 4:
