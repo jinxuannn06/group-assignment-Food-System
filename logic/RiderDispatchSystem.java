@@ -1,10 +1,9 @@
 package logic;
 
-import models.Rider;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
+import models.Rider;
 
 public class RiderDispatchSystem {
 
@@ -52,7 +51,7 @@ public class RiderDispatchSystem {
         System.out.println("\nAvailable riders are:");
         int i = 1;
         for (Rider rider : sorted) {
-            System.out.println(i + ". " + rider);
+            System.out.println(i++ + ". " + rider);
         }
     }
 

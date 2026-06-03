@@ -49,6 +49,6 @@ public class Rider implements Comparable<Rider> {
     @Override
     public String toString() {
         return "Rider [ID=" + riderId + ", Name=" + ridername + ", Distance=" + String.format("%.1f", distanceToRestaurant) + "km" +
-                ", Status=" + isAvailable + "]";
+                ", Status=" + (isAvailable ? "Available" : "Not Available") + "]";
     }
 }
