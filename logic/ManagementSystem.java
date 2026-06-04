@@ -146,7 +146,8 @@ public class ManagementSystem {
         } else {
             for (Restaurant r : restaurantList) {
                 // Assumes your Restaurant class has a getRestaurantName() method
-                System.out.println("[ID: " + r.getRestaurantId() + "] Name: " + r.getRestaurantName());
+                System.out.println("[ID: " + r.getRestaurantId() + "] Name: " + r.getRestaurantName()
+                        + " | Location: " + r.getLocation());
             }
         }
     }

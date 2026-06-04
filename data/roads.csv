@@ -1,0 +1,11 @@
+fromLocationId,toLocationId,distance
+Cafeteria,Library,1.2
+Cafeteria,Admin,2.0
+Library,Admin,1.0
+Library,HostelA,2.5
+Admin,HostelA,1.8
+Admin,Gate,2.2
+Gate,HostelB,1.5
+HostelA,HostelB,1.0
+Library,SportsComplex,2.8
+SportsComplex,HostelB,2.0
