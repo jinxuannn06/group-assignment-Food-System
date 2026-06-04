@@ -1,17 +1,15 @@
-import java.util.Scanner;
-
-
 import foodsearch.FoodAVLTree;
 import foodsearch.FoodItem;
+import java.util.Scanner;
 import logic.CsvDataLoader;
 import logic.ManagementSystem;
 import logic.OrderProcessingSystem;
-import logic.RouteOptimizationSystem;
 import logic.RiderDispatchSystem;
-import models.Rider;
-import models.User;
+import logic.RouteOptimizationSystem;
 import models.Order;
 import models.Restaurant;
+import models.Rider;
+import models.User;
 
 public class Main {
     public static void main(String[] args) {
@@ -137,15 +135,57 @@ public class Main {
                         String riderId = scanner.nextLine().trim();
                         System.out.println("Enter Rider Name: ");
                         String riderName = scanner.nextLine().trim();
-                        System.out.println("Enter Distance to restaurant (km): ");
-                        double distance = Double.parseDouble(scanner.nextLine());
-                        riderDispatchSystem.addRider(new Rider(riderId, riderName, distance, true));
+                        System.out.println("Enter Current Location Node: ");
+                        String riderLocation = scanner.nextLine().trim();
+
+                        if (!member4.hasLocation(riderLocation)) {
+                            System.out.println("Error: Location '" + riderLocation + "' is not available in the route map.");
+                            System.out.println("* Register restaurants using one of the available location nodes.");
+                            member4.displayLocations(); 
+                        } else{
+                            riderDispatchSystem.addRider(new Rider(riderId, riderName, riderLocation, true));
+                        }
+                        
                     } else if (subChoice3.equalsIgnoreCase("b")) {
-                        riderDispatchSystem.assignNearestRider();
+                        System.out.print("\n--- REGISTERED REASTAURANTS ---");
+                        member1.displayAll();
+
+                        System.out.print("\nEnter Restaurant ID to assign nearest rider: ");
+                        String restaurantId = scanner.nextLine();
+
+                        Restaurant restaurant = member1.getRestaurant(restaurantId);
+                        if (restaurant == null) {
+                            System.out.println("Error: Restaurant ID does not exist in registrations.");
+                            break;
+                        } else {
+                            riderDispatchSystem.assignNearestRiderToRestaurant(restaurant.getLocation(), member4);
+                        }
+                         
                     } else if (subChoice3.equalsIgnoreCase("c")) {
-                        riderDispatchSystem.displayAvailableRiders();
+                        member1.displayAll(); 
+                        System.out.print("\nEnter Restaurant ID to check riders for: ");
+                        String restId = scanner.nextLine().trim();
+                        Restaurant restaurant = member1.getRestaurant(restId);
+                        if (restaurant == null) {
+                            System.out.println("Error: Restaurant ID does not exist in registrations.");
+                            break;
+                        } else {
+                            riderDispatchSystem.displayAvailableRiders(restaurant.getLocation(), member4);
+                        }
                     } else if (subChoice3.equalsIgnoreCase("d")) {
-                        riderDispatchSystem.linearSearchNearest();
+                        System.out.print("\n--- REGISTERED REASTAURANTS ---");
+                        member1.displayAll();
+
+                        System.out.print("\nEnter Restaurant ID to assign nearest rider: ");
+                        String restaurantId = scanner.nextLine();
+
+                        Restaurant restaurant = member1.getRestaurant(restaurantId);
+                        if (restaurant == null) {
+                            System.out.println("Error: Restaurant ID does not exist in registrations.");
+                            break;
+                        } else {
+                            riderDispatchSystem.linearSearchNearest(restaurant.getLocation(), member4);
+                        }
                     }
                     break;
 

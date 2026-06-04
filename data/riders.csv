@@ -1,5 +1,5 @@
-riderId,riderName,distanceToRestaurant,isAvailable
-D001,Ali,1.2,true
-D002,Siti,0.8,true
-D003,Kumar,2.4,true
-D004,Mei,1.7,true
+riderId,riderName,currentLocation,isAvailable
+D001,Ali,HostelA,true
+D002,Siti,Gate,true
+D003,Kumar,Library,true
+D004,Mei,HostelB,true

@@ -2,11 +2,6 @@ package logic;
 
 import foodsearch.FoodAVLTree;
 import foodsearch.FoodItem;
-import models.Location;
-import models.Restaurant;
-import models.Rider;
-import models.User;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -15,6 +10,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import models.Location;
+import models.Restaurant;
+import models.Rider;
+import models.User;
 
 public final class CsvDataLoader {
     private static final Path DATA_DIR = Path.of("data");
@@ -200,11 +199,11 @@ public final class CsvDataLoader {
         for (CsvRow row : readRows(path, 4)) {
             String riderId = row.columns.get(0);
             String riderName = row.columns.get(1);
-            String distanceText = row.columns.get(2);
+            String currentLocation = row.columns.get(2);
             String isAvailableText = row.columns.get(3);
 
-            if (isBlank(riderId) || isBlank(riderName)) {
-                warn(path, row.lineNumber, "riderId and riderName are required.");
+            if (isBlank(riderId) || isBlank(riderName) || isBlank(currentLocation)) {
+                warn(path, row.lineNumber, "riderId, riderName, and currentLocation are required.");
                 continue;
             }
 
@@ -213,17 +212,12 @@ public final class CsvDataLoader {
                 continue;
             }
 
-            Double distance = parsePositiveDouble(path, row.lineNumber, "distanceToRestaurant", distanceText);
-            if (distance == null) {
-                continue;
-            }
-
             Boolean isAvailable = parseBoolean(path, row.lineNumber, "isAvailable", isAvailableText);
             if (isAvailable == null) {
                 continue;
             }
 
-            riderDispatchSystem.addRider(new Rider(riderId, riderName, distance, isAvailable));
+            riderDispatchSystem.addRider(new Rider(riderId, riderName, currentLocation, isAvailable));
             loaded++;
         }
 
