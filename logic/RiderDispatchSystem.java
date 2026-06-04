@@ -33,9 +33,16 @@ public class RiderDispatchSystem {
             System.out.println("No available riders now.");
             return null;
         }
+        
+        int totalRiders = riderHeap.size();
+        int operations = 32 - Integer.numberOfLeadingZeros(totalRiders);
+
         Rider assigned = riderHeap.poll();
         assigned.setAvailable(false);
+        System.out.println("\nPriority Queue (Heap) Search");
         System.out.println("\nNearest rider assigned is: " +  assigned);
+        System.out.println("Total operations made: " + operations);
+        System.out.println("Time complexity: O(log n)");
         return assigned;
     }
 
@@ -67,14 +74,25 @@ public class RiderDispatchSystem {
         List<Rider> all = new ArrayList<>(riderHeap);
         // Assume index 0 as nearest initially
         Rider nearest = all.get(0);
+        // Counter for comparisons 
+        int comparisons = 0;
+        
         // Loop check every rider
         for  (Rider rider : all) {
+            comparisons++; // Increment comparison count
             if (rider.getDistanceToRestaurant() < nearest.getDistanceToRestaurant()) {
                 nearest = rider;
             }
         }
+
+        nearest.setAvailable(false);
+        riderHeap.remove(nearest); // Remove the assigned rider from the heap   
+
+        System.out.println("\nLinear Search");
         System.out.println("\nLinear Search for " + all.size() + " riders to find nearest.");
         System.out.println("Nearest rider is: " + nearest);
+        System.out.println("Total comparisons made: " + comparisons);
+        System.out.println("Time complexity: O(n)");
         return nearest;
     }
 }
