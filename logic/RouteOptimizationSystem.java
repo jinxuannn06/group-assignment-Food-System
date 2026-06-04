@@ -138,27 +138,6 @@ public class RouteOptimizationSystem {
         return locations.containsKey(locationId);
     }
 
-    public void loadSampleMap() {
-        addLocation(new Location("Cafeteria", "Campus Cafeteria"));
-        addLocation(new Location("Library", "Main Library"));
-        addLocation(new Location("Admin", "Administration Building"));
-        addLocation(new Location("HostelA", "Hostel A"));
-        addLocation(new Location("HostelB", "Hostel B"));
-        addLocation(new Location("Gate", "Main Gate"));
-        addLocation(new Location("SportsComplex", "Sports Complex"));
-
-        addRoad("Cafeteria", "Library", 1.2);
-        addRoad("Cafeteria", "Admin", 2.0);
-        addRoad("Library", "Admin", 1.0);
-        addRoad("Library", "HostelA", 2.5);
-        addRoad("Admin", "HostelA", 1.8);
-        addRoad("Admin", "Gate", 2.2);
-        addRoad("Gate", "HostelB", 1.5);
-        addRoad("HostelA", "HostelB", 1.0);
-        addRoad("Library", "SportsComplex", 2.8);
-        addRoad("SportsComplex", "HostelB", 2.0);
-    }
-
     private List<String> buildPath(String start, String destination, Map<String, String> previousLocations) {
         List<String> path = new ArrayList<>();
         String current = destination;

@@ -1,0 +1,6 @@
+foodId,name,category,price,restaurantId
+F001,Nasi Lemak,Rice,8.50,R001
+F002,Chicken Rice,Rice,9.00,R002
+F003,Beef Burger,Western,12.90,R003
+F004,Laksa,Noodles,10.50,R001
+F005,Caesar Salad,Healthy,11.00,R004

@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import foodsearch.FoodAVLTree;
 import foodsearch.FoodItem;
+import logic.CsvDataLoader;
 import logic.ManagementSystem;
 import logic.OrderProcessingSystem;
 import logic.RouteOptimizationSystem;
@@ -21,8 +22,8 @@ public class Main {
         OrderProcessingSystem member2 = new OrderProcessingSystem();
         RiderDispatchSystem riderDispatchSystem = new RiderDispatchSystem();
         RouteOptimizationSystem member4 = new RouteOptimizationSystem();
-        member4.loadSampleMap();
-        FoodAVLTree foodSearchTree = createSampleFoodTree();
+        FoodAVLTree foodSearchTree = new FoodAVLTree();
+        CsvDataLoader.loadDemoData(member1, riderDispatchSystem, member4, foodSearchTree);
 
 
         while (true) {
@@ -198,18 +199,6 @@ public class Main {
                     System.out.println("Invalid input. Please choose options 1 through 6.");
             }
         }
-    }
-
-    private static FoodAVLTree createSampleFoodTree() {
-        FoodAVLTree foodTree = new FoodAVLTree();
-
-        foodTree.insert(new FoodItem("F001", "Nasi Lemak", "Rice", 8.50, "R001"));
-        foodTree.insert(new FoodItem("F002", "Chicken Rice", "Rice", 9.00, "R002"));
-        foodTree.insert(new FoodItem("F003", "Beef Burger", "Western", 12.90, "R003"));
-        foodTree.insert(new FoodItem("F004", "Laksa", "Noodles", 10.50, "R001"));
-        foodTree.insert(new FoodItem("F005", "Caesar Salad", "Healthy", 11.00, "R004"));
-
-        return foodTree;
     }
 
     private static void runFoodSearchMenu(Scanner scanner, FoodAVLTree foodTree) {
