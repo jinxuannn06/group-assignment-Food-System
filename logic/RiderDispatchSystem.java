@@ -28,10 +28,29 @@ public class RiderDispatchSystem {
     }
 
     // Pool, returns and removes the rider at top of the heap
-    public Rider assignNearestRider() {
+    public Rider assignNearestRiderToRestaurant(String restaurantLocation, RouteOptimizationSystem routeSystem) {
         if (riderHeap.isEmpty()) {
             System.out.println("No available riders now.");
             return null;
+        }
+
+        List<Rider> allRiders = new ArrayList<>(riderHeap); // Cretae new copy of riders
+        riderHeap.clear(); // Clear old copy to avoid duplicates
+
+        for (Rider rider : allRiders) {
+            RouteOptimizationSystem.RouteResult result = routeSystem.findShortestRoute(
+                rider.getCurrentLocation(), 
+                restaurantLocation
+            );
+            if (result != null && result.hasRoute()) { 
+                rider.setDistanceToRestaurant(result.getTotalDistance());
+
+            } else {
+                rider.setDistanceToRestaurant(Double.MAX_VALUE); // No route, set to max
+                System.out.println("No route found for rider " + rider.getRiderName() + " from " + rider.getCurrentLocation() + " to " + restaurantLocation);
+            }
+
+            riderHeap.add(rider); // Re-add rider with updated distance
         }
         
         int totalRiders = riderHeap.size();
@@ -39,6 +58,7 @@ public class RiderDispatchSystem {
 
         Rider assigned = riderHeap.poll();
         assigned.setAvailable(false);
+
         System.out.println("\nPriority Queue (Heap) Search");
         System.out.println("\nNearest rider assigned is: " +  assigned);
         System.out.println("Total operations made: " + operations);
@@ -47,13 +67,27 @@ public class RiderDispatchSystem {
     }
 
     // Display
-    public void displayAvailableRiders() {
+    public void displayAvailableRiders(String restaurantLocation, RouteOptimizationSystem routeSystem) {
         if (riderHeap.isEmpty()) {
             System.out.println("No available riders now.");
             return;
         }
         // Copy a list first, then sort
         List<Rider> sorted = new ArrayList<>(riderHeap);
+
+        for (Rider rider : sorted) {
+            // Update distance for display
+            RouteOptimizationSystem.RouteResult result = routeSystem.findShortestRoute(
+                rider.getCurrentLocation(), 
+                restaurantLocation
+            );
+            if (result != null && result.hasRoute()) { 
+                rider.setDistanceToRestaurant(result.getTotalDistance());
+            } else {
+                rider.setDistanceToRestaurant(Double.MAX_VALUE); // No route, set to max
+            }
+        }
+
         sorted.sort(null); // Call the compareTo, to sort by distance
         System.out.println("\nAvailable riders are:");
         int i = 1;
@@ -64,7 +98,7 @@ public class RiderDispatchSystem {
 
     // Linear search
     // Perforamnce comparison, search rider one-by-one
-    public Rider linearSearchNearest() {
+    public Rider linearSearchNearest(String restaurantLocation, RouteOptimizationSystem routeSystem) {
         if (riderHeap.isEmpty()) {
             System.out.println("No available riders now.");
             return null;
@@ -72,6 +106,22 @@ public class RiderDispatchSystem {
 
         // Create a copy
         List<Rider> all = new ArrayList<>(riderHeap);
+
+        for (Rider rider : all) {
+            RouteOptimizationSystem.RouteResult result = routeSystem.findShortestRoute(
+                rider.getCurrentLocation(), 
+                restaurantLocation
+            );
+            if (result != null && result.hasRoute()) { 
+                rider.setDistanceToRestaurant(result.getTotalDistance());
+
+            } else {
+                rider.setDistanceToRestaurant(Double.MAX_VALUE); // No route, set to max
+                System.out.println("No route found for rider " + rider.getRiderName() + " from " + rider.getCurrentLocation() + " to " + restaurantLocation);
+            }
+        }
+
+
         // Assume index 0 as nearest initially
         Rider nearest = all.get(0);
         // Counter for comparisons 

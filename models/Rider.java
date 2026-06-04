@@ -3,13 +3,15 @@ package models;
 public class Rider implements Comparable<Rider> {
     private String riderId;
     private String ridername;
-    private double distanceToRestaurant; // Key for priority
+    private String currentLocation;
+    private double distanceToRestaurant; 
     private boolean isAvailable;
 
-    public Rider(String riderId, String ridername, double distanceToRestaurant, boolean isAvailable) {
+    public Rider(String riderId, String ridername, String currentLocation, boolean isAvailable) {
         this.riderId = riderId;
         this.ridername = ridername;
-        this.distanceToRestaurant = distanceToRestaurant;
+        this.currentLocation = currentLocation;
+        this.distanceToRestaurant = 0.0;
         this.isAvailable = isAvailable;
     }
 
@@ -26,6 +28,9 @@ public class Rider implements Comparable<Rider> {
     public String getRiderName() {
         return ridername;
     }
+    public String getCurrentLocation() {
+        return currentLocation;
+    }
     public double getDistanceToRestaurant() {
         return distanceToRestaurant;
     }
@@ -39,6 +44,9 @@ public class Rider implements Comparable<Rider> {
     public void setRidername(String ridername) {
         this.ridername = ridername;
     }
+    public void setCurrentLocation(String currentLocation) {
+        this.currentLocation = currentLocation;
+    }
     public void setDistanceToRestaurant(double distanceToRestaurant) {
         this.distanceToRestaurant = distanceToRestaurant;
     }
@@ -48,7 +56,7 @@ public class Rider implements Comparable<Rider> {
 
     @Override
     public String toString() {
-        return "Rider [ID=" + riderId + ", Name=" + ridername + ", Distance=" + String.format("%.1f", distanceToRestaurant) + "km" +
+        return "Rider [ID=" + riderId + ", Name=" + ridername + ", Location=" + currentLocation + ", Distance=" + String.format("%.1f", distanceToRestaurant) + "km" +
                 ", Status=" + (isAvailable ? "Available" : "Not Available") + "]";
     }
 }
