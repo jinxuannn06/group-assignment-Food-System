@@ -5,27 +5,13 @@ import models.Restaurant;
 import java.util.LinkedList;
 import java.util.HashMap;
 
- /* Data Structures Used: 
- * - LinkedList: For sequential storage, allowing efficient O(1) insertions/deletions.
- * - HashMap (Hash Table): For optimized search operations achieving O(1) time complexity.
- */
 public class ManagementSystem {
 
-    // Part A: Storage Management (Linked Lists) 
-    // Linked Lists are used here because user and restaurant registrations happen dynamically.
-    // Unlike arrays, a Linked List can expand or shrink at runtime without needing memory reallocation.
     private LinkedList<User> userList;
     private LinkedList<Restaurant> restaurantList;
-
-    // Part B: Retrieval Optimization (Hash Tables)
-    // Searching sequentially through a Linked List takes O(n) time. 
-    // By mirroring our storage in Hash Maps, we look up objects using their Unique IDs as keys,
-    // which processes via a hash function to locate the data instantly in O(1) constant time.
     private HashMap<String, User> userTable;
     private HashMap<String, Restaurant> restaurantTable;
 
-    
-    //Constructor initializing both the storage lists and retrieval hash tables.
     public ManagementSystem() {
         this.userList = new LinkedList<>();
         this.restaurantList = new LinkedList<>();
@@ -33,10 +19,7 @@ public class ManagementSystem {
         this.restaurantTable = new HashMap<>();
     }
 
-    //User's Managemment Logic
-    //Registers a new customer/admin in the system.
     //Insertion into Linked List and Hash Table takes O(1) time.
-    
     public void registerUser(User user) {
         if (user == null || user.getUserId() == null) {
             System.out.println("Error: Invalid user details provided.");
@@ -53,9 +36,6 @@ public class ManagementSystem {
         userTable.put(user.getUserId(), user);   // Insert into hash table for indexing - O(1)
         System.out.println("User successfully registered: " + user.getName());
     }
-
-    
-    //Removes a user from storage and indexing maps.
     
     public void removeUser(String userId) {
         if (!userTable.containsKey(userId)) {
@@ -63,7 +43,6 @@ public class ManagementSystem {
             return;
         }
 
-        // Fetch the user object from our map in O(1) time to remove it from the list
         User userToRemove = userTable.get(userId);
         
         userList.remove(userToRemove); // Remove from Linked List
@@ -71,19 +50,12 @@ public class ManagementSystem {
         System.out.println("User with ID " + userId + " has been successfully removed.");
     }
 
-    
-    //OPTIMIZED RETRIEVAL: Fetches a user profile instantly.
-    //Efficiency: O(1) constant time complexity.
-    
+
     public User getUserProfile(String userId) {
-        // Instead of iterating through the whole list, the key is hashed directly to its memory slot.
+        // O(1) retrieve from hash table
         return userTable.get(userId); 
     }
 
-
-    //Restaurant Management Logic
-    //Registers a new restaurant profile in the system.
-    
     public void registerRestaurant(Restaurant restaurant) {
         if (restaurant == null || restaurant.getRestaurantId() == null) {
             System.out.println("Error: Invalid restaurant details provided.");
@@ -99,9 +71,7 @@ public class ManagementSystem {
         restaurantTable.put(restaurant.getRestaurantId(), restaurant);
         System.out.println("Restaurant successfully registered: " + restaurant.getRestaurantName());
     }
-
-    
-    //Removes a restaurant profile from the system. 
+ 
     public void removeRestaurant(String restaurantId) {
         if (!restaurantTable.containsKey(restaurantId)) {
             System.out.println("Error: Restaurant ID " + restaurantId + " not found.");
@@ -116,16 +86,10 @@ public class ManagementSystem {
     }
 
     
-    //OPTIMIZED RETRIEVAL: Fetches a restaurant profile instantly.
-    //Efficiency: O(1) constant time complexity.
+    //Fetches a restaurant profile instantly.
     public Restaurant getRestaurant(String restaurantId) {
         return restaurantTable.get(restaurantId);
     }
-
-
-    //View System Logic
-    //Displays all registered users and restaurants.
-    //Sequential printing through the underlying lists.
 
     public void displayAll() {
         System.out.println("\n========= SYSTEM MANAGEMENT RECORDS =========");
@@ -135,7 +99,6 @@ public class ManagementSystem {
             System.out.println("No users are registered in the system.");
         } else {
             for (User u : userList) {
-                // Assumes your User class has a structural toString() method
                 System.out.println("[ID: " + u.getUserId() + "] Name: " + u.getName());
             }
         }
@@ -145,7 +108,6 @@ public class ManagementSystem {
             System.out.println("No restaurants are registered in the system.");
         } else {
             for (Restaurant r : restaurantList) {
-                // Assumes your Restaurant class has a getRestaurantName() method
                 System.out.println("[ID: " + r.getRestaurantId() + "] Name: " + r.getRestaurantName()
                         + " | Location: " + r.getLocation());
             }
